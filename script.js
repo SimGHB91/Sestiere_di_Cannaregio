@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // SEZIONE DROPDOWN SEL LINGUA E TRADUZ
     const locales = ["en-GB", "de-DE", "es-ES", "fr-FR", "it-IT"];
-    const translationsURL = "https://raw.githubusercontent.com/SimGHB91/VENICE_CHAT_Heritage/refs/heads/main/translations.json";
+    const translationsURL = "translations.json"; // URL del file JSON delle traduzioni
 
     // Funzione per ottenere la bandiera
     function getFlagSrc(countryCode) {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }).addTo(map);
 
     // Carica il file GeoJSON dal link RAW di GitHub
-    fetch('https://raw.githubusercontent.com/SimGHB91/VENICE_CHAT_Heritage/refs/heads/main/Tracciato_openroute_Sestiere_Cannaregio.geojson')
+    fetch('Tracciato_openroute_Sestiere_Cannaregio.geojson') // URL del file GeoJSON
         .then(response => response.json())
         .then(data => {
             // Aggiungi il GeoJSON alla mappa con lo stile estratto dalle proprietà del GeoJSON
