@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- primary meta tags -->
+    <title>Chat Heritage</title>
+    <meta name="title" content="Chat Heritage">
+    <meta name="description" content="*************************************">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" type="image/svg+xml">
+
+    <!-- custom css link -->
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- https://github.com/perliedman/leaflet-routing-machine -->
+
+    <!-- google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ed4a3d9564.js" crossorigin="anonymous"></script>
+
+    <!-- link utili per il codice 
+      https://beautifier.io
+    
+    -->
+    <style>
+        /******************************************** STILI DI TESTO **************************************/
+    </style>
+</head>
+
+<body>
+    <!-- ELEMENTO DROPDOWN SELEZIONE LINGUA -->
+    <div class="dropdown" tab-index="0">
+        <button id="dropdown-btn"></button>
+        <ul class="dropdown-content" id="dropdown-content"></ul>
+    </div>
+
+    <!-- SEZIONE TITOLI E DATI GENERALI PERCORSO -->
+    <div class="maptitle">
+        <h1 data-key="titolo">Sestiere di Cannaregio</h1>
+        <h2 data-key="sottotitolo1">Ti diamo il bevenuto nel sestiere più esteso di Venezia, ed anche il più popolato.</h2>
+        <!-- <h3 data-key="sottotitolo2">Consulta la mappa interattiva di questo percorso e scopri l'anteprima di ogni singola tappa!</h3> -->
+        <ul class="custom-list">
+            <li><i class="fa fa-map-marker" aria-hidden="true"></i>
+                <h5 data-key="itemlist1">Interagisci con la mappa</h5>
+            </li>
+            <li><i class="fa fa-map-marker" aria-hidden="true"></i>
+                <h5 data-key="itemlist2">Scopri l'anteprima di ogni tappa</h5>
+            </li>
+            <li><i class="fa fa-map-marker" aria-hidden="true"></i>
+                <h5 data-key="itemlist3">Accedi al percorso chatbot</h5>
+            </li>
+            <li><i class="fa fa-map-marker" aria-hidden="true"></i>
+                <h5 data-key="itemlist4">Lasciati guidare da Leo!</h5>
+            </li>
+        </ul>
+
+        <div class="info-boxes">
+            <div class="info-box">
+                <div class="icon-container">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i> <!-- Puoi sostituire con l'icona che preferisci -->
+                </div>
+                <div class="info-content">
+                    <h3 data-key="tempo_totale">Tempo totale: </h3>
+                    <p data-key="valore_tempo">2 ore</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="icon-container">
+                    <i class="fa fa-road" aria-hidden="true"></i> <!-- Puoi sostituire con l'icona che preferisci -->
+                </div>
+                <div class="info-content">
+                    <h3 data-key="distanza_totale">Distanza totale:</h3>
+                    <p data-key="valore_distanza">2,2 km</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SEZIONE RELATIVA SOLO ALLA MAPPA -->
+    <div id="map"></div>
+
+    <!-- SEZIONE TOTALE DEI CAROSELLI IMMAGINI E TESTI -->
+    <div class="sld-wrp" id="caroselli">
+        <!-- CAROSELLO MINIATURE IMMAGINI -->
+        <div class="slider-nav">
+            <div class="slide-btn" id="slide-1">
+                <img src="https://youvenice.it/wp-content/uploads/2018/11/Bagatela.png" alt="foto1">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-2">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fevenice.it%2Fsites%2Fdefault%2Ffiles%2Fpalazzo-mastelli2.jpg&f=1&nofb=1&ipt=8d82bad59f32919a39c9250c200b503303a14b8ed539b0e231dfc7405e667e2b&ipo=images" alt="foto2">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdynamic-media-cdn.tripadvisor.com%2Fmedia%2Fphoto-o%2F17%2F59%2Ff2%2Ff4%2Fcasa-del-tintoretto.jpg%3Fw%3D1200%26h%3D-1%26s%3D1&f=1&nofb=1&ipt=0be1fe0f7a380c34bddb2359fdc60240fd64c1131a72687bd26ec2d0cd6e7613&ipo=images" alt="foto3">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-4">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.ex3SUDxpxwFDV_Zb42TDLwHaE8%26pid%3DApi&f=1&ipt=7c733b69e4765c1b7fb5bbc15762d0ab087d5471aea4d5715a9790e9bccf28a2&ipo=images" alt="foto4">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-5">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-cdn.tripadvisor.com%2Fmedia%2Fphoto-s%2F18%2F13%2F20%2F02%2Fphoto1jpg.jpg&f=1&nofb=1&ipt=afd38c99831c7e6fe927bfb8b9f64fa00818c1b635708702b9e93445dd9c2313&ipo=images" alt="foto5">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-6">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstrabiliantevenezia.files.wordpress.com%2F2020%2F12%2F0033-001.jpg&f=1&nofb=1&ipt=b15b18cf9ddf58728fba26fb192e8576f7b99254157a72bd78ccbc989854a963&ipo=images" alt="foto6">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-7">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.campiello-venise.com%2Fcannaregio%2FimagesC%2Fcampo_santa_sofia.jpg&f=1&nofb=1&ipt=6172e420d5773e8967de5f4c4abd7b8f1c62aa2d3c17e8aeb57ccb135229cf70&ipo=images" alt="foto7">
+                <div class="maschera"></div>
+            </div>
+            <div class="slide-btn" id="slide-8">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.wixstatic.com%2Fmedia%2F85ecbc_64f032eb7e894a76b1c5abe90a311ec0~mv2.jpg%2Fv1%2Ffill%2Fw_980%2Ch_654%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_auto%2F85ecbc_64f032eb7e894a76b1c5abe90a311ec0~mv2.jpg&f=1&nofb=1&ipt=d63d6c1bae01d5fcf4c830e1ff88f5ef90032801fc82f6cb18ebd76c8aaf1938&ipo=images" alt="foto8">
+                <div class="maschera"></div>
+            </div>
+        </div>
+
+        <!-- CAROSELLO TESTI DESCRITTIVI PER LE IMMAGINI -->
+        <div class="slider-for">
+
+            <!------------------------------- 1 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda1">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta1A">Il Magazzeno di Matteo</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta1B">
+                            Nel Settecento veneziano, i magazeni non erano solo luoghi dove bere vino greco, ma anche uffici di prestito su pegno, dove si riceveva denaro per due terzi del valore e un terzo in vino scadente ("vin da pegni").
+                            Particolarmente noto era il magazzeno di Matteo "bocaleto" al Ponte di San Girolamo in Cannaregio, che accettava in pegno oggetti preziosi e merce di dubbia provenienza, aggiungendo sempre nel prestito quel terzo di pessimo vino che gli garantiva un doppio guadagno.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta1C">Questo è il tuo punto di partenza!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 2 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda2">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta2A">Ca'Mastelli o del Camello</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta2B">
+                            Il palazzo gotico Ca' Mastelli, è caratterizzato da una scultura di cammello che ne definisce l'identità. Costruito nel XIII secolo, l'edificio testimonia la ricchezza dei mercanti stranieri che operavano a Venezia.
+                            La sua facciata sul Rio di Ca' Mastelli racconta una storia di preziosi commerci internazionali e scambi culturali.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta2C">Distanza: &nbsp725 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta2D">Tempo: &nbsp7 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 3 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda3">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta3A">Casa del Tintoretto</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta3B">
+                            La Casa del Tintoretto, è l'abitazione storica di Jacopo Robusti, meglio conosciuto come Tintoretto, uno dei più grandi pittori del Rinascimento veneziano.
+                            Ubicata in Fondamenta dei Mori, questo edificio conserva ancora oggi l'atmosfera originaria del XVI secolo e fu il luogo dove il celebre artista visse, lavorò e creò molte delle sue opere più importanti.
+                            La casa, che oggi è un piccolo museo, custodisce ancora alcuni elementi originali e testimonia la vita quotidiana di uno dei maestri della pittura veneziana.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta3C">Distanza: &nbsp150 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta3D">Tempo: &nbsp1 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 4 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda4">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta4A">Ponte San Marziale</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta4B">
+                            Il Ponte di San Marziale, che fino all'Ottocento mostrava impronte di piedi sul selciato, era un luogo tradizionale per le lotte con bastoni e pugni nella Venezia antica.
+                            Un episodio particolarmente violento avvenne il 17 ottobre 1545 quando, durante uno scontro in cui stavano vincendo i Castellani, alcuni Nicolotti iniziarono a lanciare tegole dai tetti, provocando un tumulto che degenerò in violenza con spade sguainate e numerose vittime tra morti, soffocati e annegati.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta4C">Distanza: &nbsp200 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta4D">Tempo: &nbsp2 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 5 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda5">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta5A">Chiesa di Santa Maria Maddalena</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta5B">
+                            La Chiesa di Santa Maria Maddalena è l'unico edificio religioso veneziano a pianta circolare, progettato in stile neoclassico da Tommaso Temanza e completato nel 1780.
+                            Con la sua caratteristica cupola e pronao dorico, sostituì una chiesa duecentesca e, dopo essere stata sconsacrata durante l'occupazione napoleonica, oggi rappresenta un raro esempio di architettura neoclassica nella città lagunare.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta5C">Distanza: &nbsp230 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta5D">Tempo: &nbsp2 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 6 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda6">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta6A">"La pantegana" - Fondamenta del Traghetto</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta6B">
+                            Chissà quale significato voleva lasciarci lo sconosciuto che nel 1644 scolpì una “pantegana” (e relativa data) sulla colonna d’angolo del porticato di un palazzo del Canal Grande.
+                            Con tanti ingressi a filo acqua, tanti depositi per le merci e i cereali, tante “scoazze” accumulate in alcune corti in attesa di essere smaltite, non doveva essere cosi raro incontrarle soprattutto di notte.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta6C">Distanza: &nbsp320 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta6D">Tempo: &nbsp3 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 7 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda7">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta7A">Il pozzo di Campo Santa Sofia</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta7B">
+                            Il pozzo situato in Campo Santa Sofia nel Sestiere di Cannaregio è un elemento architettonico di notevole interesse storico e artistico.
+                            La vera (il bordo esterno) del pozzo è realizzata in pietra d'Istria, materiale calcareo molto utilizzato a Venezia per la sua resistenza all'acqua salata.
+                            Ha una caratteristica forma cilindrica divisa in sei settori decorativi.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta7C">Distanza: &nbsp260 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta7D">Tempo: &nbsp3 min</p>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------- 8 ----------------------------->
+            <div class="slide-container">
+                <div class="chat-bubble-wrapper" style="justify-content: flex-end;" id="chat-bubble-1">
+                    <div class="chat-bubble sent">
+                        <span class="emoji">🔍</span>
+                        <p style="color: #ffffff;" data-key="domanda8">Leo, dove mi trovo?</p>
+                        <div class="check-marks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                <path fill="#0040ff" d="m11.602 13.76l1.412 1.412l8.466-8.466l1.414 1.415l-9.88 9.88l-6.364-6.365l1.414-1.414l2.125 2.125zm.002-2.828l4.952-4.953l1.41 1.41l-4.952 4.953zm-2.827 5.655L7.364 18L1 11.636l1.414-1.414l1.413 1.413l-.001.001z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-2">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">📍</span>
+                        <h1 data-key="risposta8A">Gli uncini di Ponte San Canciano</h1>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-3">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <p data-key="risposta8B">
+                            Gli uncini di ferro sul pilastro di Ponte San Canciano, oggi considerati portafortuna, hanno un'origine macabra: erano utilizzati per esporre i quarti dei corpi dei criminali giustiziati mediante squartamento.
+                            Secondo la tradizione, i resti dei condannati venivano orientati verso Padova, Mestre, Chioggia e il Lido, mentre la testa veniva esposta in Piazza San Marco.
+                            La superstizione vuole che toccare questi uncini porti fortuna, forse perché ricorda che chi può farlo è ancora vivo e lontano dal "viaggio finale" verso l'isola cimiteriale.
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-4">
+                    <div class="avatar"></div>
+                    <div class="chat-bubble received">
+                        <span class="emoji">🏃🏻</span>
+                        <p style="font-weight: 600;" data-key="risposta8C">Distanza: &nbsp360 m</p>
+                    </div>
+                </div>
+                <div class="chat-bubble-wrapper" style="justify-content: flex-start;" id="chat-bubble-5">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhotemoji.com%2Fimages%2Femoji%2F0%2Fmmj5ipu6ds50.png&f=1&nofb=1&ipt=49bdd956a93d8fbdd84720256334ecc308a67e3c8141a46371f22ea984c58492&ipo=images" alt="Avatar" class="avatar">
+                    <div class="chat-bubble received">
+                        <span class="emoji">⏱️</span>
+                        <p style="font-weight: 600;" data-key="risposta8D">Tempo: &nbsp4 min</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEZIONE RELATIVA SOLO ALLA MAPPA -->
+    <div class="ctosection">
+        <h2 data-key="ctotitolo1">Unisciti a noi ed esplora il percorso!</h2> <br>
+        <!-- <h3 data-key="sottotitolo2">Consulta la mappa interattiva di questo percorso e scopri l'anteprima di ogni singola tappa!</h3> -->
+        <button class="accedipercorso" onclick="window.location.href='https://wa.me/393514312461?text=Chat%20Heritage';">
+            <svg class="svgIcon" viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"></path>
+            </svg>
+            Accedi ora
+        </button>
+    </div>
+
+    <!-- SEZIONE DEGLI SCRIPT JS -->
+    <script src="script.js" type="text/javascript"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js'></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+</body>
+
+</html>
