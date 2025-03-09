@@ -48,7 +48,9 @@
       "risposta8A": "Gli uncini di Ponte San Canciano",
       "risposta8B": "Gli uncini di ferro sul pilastro di Ponte San Canciano, oggi considerati portafortuna, hanno un'origine macabra: erano utilizzati per esporre i quarti dei corpi dei criminali giustiziati mediante squartamento. Secondo la tradizione, i resti dei condannati venivano orientati verso Padova, Mestre, Chioggia e il Lido, mentre la testa veniva esposta in Piazza San Marco. La superstizione vuole che toccare questi uncini porti fortuna, forse perché ricorda che chi può farlo è ancora vivo e lontano dal \"viaggio finale\" verso l'isola cimiteriale.",
       "risposta8C": "Distanza: 360 m",
-      "risposta8D": "Tempo: 4 min"
+      "risposta8D": "Tempo: 4 min",
+      "ctotitolo1": "Unisciti a noi ed esplora il percorso!",
+      "ctobutton": "Let's go!"
     },
     "en": {
       "titolo": "Cannaregio District",
@@ -99,7 +101,9 @@
       "risposta8A": "The hooks of Ponte San Canciano",
       "risposta8B": "The iron hooks on the pillar of Ponte San Canciano, now considered lucky charms, have a macabre origin: they were used to display the quarters of the bodies of criminals executed by dismemberment. According to tradition, the remains of the condemned were oriented towards Padua, Mestre, Chioggia and the Lido, while the head was exhibited in Piazza San Marco. Superstition has it that touching these hooks brings good luck, perhaps because it reminds us that whoever can do it is still alive and far from the \"final journey\" to the cemetery island.",
       "risposta8C": "Distance: 360 m",
-      "risposta8D": "Time: 4 min"
+      "risposta8D": "Time: 4 min",
+      "ctotitolo1": "Join us and explore the journey!",
+      "ctobutton": "Let's go!"
     },
     "de": {
       "titolo": "Sestiere Cannaregio",
@@ -150,7 +154,9 @@
       "risposta8A": "Die Haken der Ponte San Canciano",
       "risposta8B": "Die eisernen Haken auf der Säule der Ponte San Canciano, die heute als Glücksbringer gelten, haben einen makabren Ursprung: Sie wurden verwendet, um die Viertel der Körper von Kriminellen auszustellen, die durch Zerstückelung hingerichtet wurden. Der Tradition zufolge wurden die Überreste der Verurteilten in Richtung Padua, Mestre, Chioggia und Lido ausgerichtet, während der Kopf auf der Piazza San Marco ausgestellt wurde. Der Aberglaube besagt, dass das Berühren dieser Haken Glück bringt, vielleicht weil es uns daran erinnert, dass jeder, der es tun kann, noch am Leben und weit entfernt von der \"letzten Reise\" zur Friedhofsinsel ist.",
       "risposta8C": "Entfernung: 360 m",
-      "risposta8D": "Zeit: 4 Min"
+      "risposta8D": "Zeit: 4 Min",
+      "ctotitolo1": "Schließe dich uns an und erkunde den Weg!",
+      "ctobutton": "Let's go!"  
     },
     "es": {
       "titolo": "Distrito de Cannaregio",
@@ -201,7 +207,9 @@
       "risposta8A": "Los ganchos de Ponte San Canciano",
       "risposta8B": "Los ganchos de hierro en el pilar de Ponte San Canciano, ahora considerados amuletos de la suerte, tienen un origen macabro: se utilizaban para exhibir los cuartos de los cuerpos de los delincuentes ejecutados por desmembramiento. Según la tradición, los restos de los condenados se orientaban hacia Padua, Mestre, Chioggia y el Lido, mientras que la cabeza se exhibía en la Plaza de San Marcos. La superstición dice que tocar estos ganchos trae buena suerte, tal vez porque nos recuerda que quien puede hacerlo todavía está vivo y lejos del \"viaje final\" a la isla del cementerio.",
       "risposta8C": "Distancia: 360 m",
-      "risposta8D": "Tiempo: 4 min"
+      "risposta8D": "Tiempo: 4 min",
+      "ctotitolo1": "¡Únete a nosotros y explora el camino!",
+      "ctobutton": "Let's go!"
     },
     "fr": {
       "titolo": "Sestiere Cannaregio",
@@ -252,6 +260,8 @@
       "risposta8A": "Les crochets de Ponte San Canciano",
       "risposta8B": "Les crochets en fer sur le pilier de Ponte San Canciano, aujourd'hui considérés comme des porte-bonheur, ont une origine macabre: ils étaient utilisés pour exposer les quartiers des corps des criminels exécutés par démembrement. Selon la tradition, les restes des condamnés étaient orientés vers Padoue, Mestre, Chioggia et le Lido, tandis que la tête était exposée sur la place Saint-Marc. La superstition veut que toucher ces crochets porte bonheur, peut-être parce que cela nous rappelle que celui qui peut le faire est encore vivant et loin du \"dernier voyage\" vers l'île du cimetière.",
       "risposta8C": "Distance: 360 m",
-      "risposta8D": "Temps: 4 min"
+      "risposta8D": "Temps: 4 min",
+      "ctotitolo1": "Rejoignez-nous et explorez le parcours !",
+      "ctobutton": "Let's go!"
     }
 }
