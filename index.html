@@ -541,6 +541,7 @@
     </script>
 
     <!-------------------------------- Script Google Apps Script per tracciabilità click nel sito ---------------------------------------------->
+    <!-- SCRIPT CLIENT (inserire in index.html) -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Aggiungiamo un debounce per limitare le richieste frequenti
@@ -552,8 +553,8 @@
           clickTimeout = setTimeout(function() {
             // Raccogliamo dati più dettagliati sul click
             const clickedElement = event.target.tagName;
-            const clickedElementId = event.target.id || 'nessun-id';
-            const clickedElementClass = event.target.className || 'nessuna-classe';
+            const clickedElementId = event.target.id || '';
+            const clickedElementClass = event.target.className || '';
             
             // Prepariamo i dati da inviare
             const data = {
@@ -567,18 +568,19 @@
               screenHeight: window.innerHeight
             };
             
+            console.log("Invio dati di tracciamento:", data);
+            
             // Inviamo la richiesta con gestione degli errori
             fetch('https://script.google.com/macros/s/AKfycbzyMw7RcNa_9SKGztjT87OeJ4r_X9cmlWPqLjdUUfOtuH51w13St5hROwp31qENEtHW/exec', {
               method: 'POST',
               body: JSON.stringify(data),
               headers: {
                 'Content-Type': 'application/json'
-              }
+              },
+              mode: 'no-cors' // Importante per le richieste verso Google Apps Script
             })
             .then(response => {
-              if (!response.ok) {
-                console.error('Errore nella richiesta di tracciamento:', response.status);
-              }
+              console.log("Risposta ricevuta", response);
             })
             .catch(error => {
               console.error('Errore nell\'invio dei dati di tracciamento:', error);
