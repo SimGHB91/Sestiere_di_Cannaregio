@@ -539,6 +539,23 @@
           setInterval(devtoolsDetect, 1000);
       })();
     </script>
+
+    <!-- Script Google Apps Script per tracciabilità click nel sito -->
+      <script>
+        document.addEventListener('click', function () {
+          fetch('https://script.google.com/macros/s/AKfycbzyMw7RcNa_9SKGztjT87OeJ4r_X9cmlWPqLjdUUfOtuH51w13St5hROwp31qENEtHW/exec', {
+            method: 'POST',
+            body: JSON.stringify({
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+              url: window.location.href
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        });
+      </script>
       
 </body>
 
