@@ -540,22 +540,53 @@
       })();
     </script>
 
-    <!-- Script Google Apps Script per tracciabilità click nel sito -->
-      <script>
-        document.addEventListener('click', function () {
-          fetch('https://script.google.com/macros/s/AKfycbzyMw7RcNa_9SKGztjT87OeJ4r_X9cmlWPqLjdUUfOtuH51w13St5hROwp31qENEtHW/exec', {
-            method: 'POST',
-            body: JSON.stringify({
+    <!-------------------------------- Script Google Apps Script per tracciabilità click nel sito ---------------------------------------------->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Aggiungiamo un debounce per limitare le richieste frequenti
+        let clickTimeout;
+        const debounceTime = 300; // ms
+        
+        document.addEventListener('click', function(event) {
+          clearTimeout(clickTimeout);
+          clickTimeout = setTimeout(function() {
+            // Raccogliamo dati più dettagliati sul click
+            const clickedElement = event.target.tagName;
+            const clickedElementId = event.target.id || 'nessun-id';
+            const clickedElementClass = event.target.className || 'nessuna-classe';
+            
+            // Prepariamo i dati da inviare
+            const data = {
               timestamp: new Date().toISOString(),
               userAgent: navigator.userAgent,
-              url: window.location.href
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
+              url: window.location.href,
+              element: clickedElement,
+              elementId: clickedElementId,
+              elementClass: clickedElementClass,
+              screenWidth: window.innerWidth,
+              screenHeight: window.innerHeight
+            };
+            
+            // Inviamo la richiesta con gestione degli errori
+            fetch('https://script.google.com/macros/s/AKfycbzyMw7RcNa_9SKGztjT87OeJ4r_X9cmlWPqLjdUUfOtuH51w13St5hROwp31qENEtHW/exec', {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => {
+              if (!response.ok) {
+                console.error('Errore nella richiesta di tracciamento:', response.status);
+              }
+            })
+            .catch(error => {
+              console.error('Errore nell\'invio dei dati di tracciamento:', error);
+            });
+          }, debounceTime);
         });
-      </script>
+      });
+    </script>
       
 </body>
 
