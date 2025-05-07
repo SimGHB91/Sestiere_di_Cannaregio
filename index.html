@@ -544,6 +544,22 @@
     <!-- SCRIPT CLIENT (inserire in index.html) -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        // Otteniamo informazioni geografiche basate su IP
+        let geoData = { country: '', city: '', region: '' };
+        
+        // Utilizziamo un servizio gratuito di geolocalizzazione IP
+        fetch('https://ipapi.co/json/')
+          .then(response => response.json())
+          .then(data => {
+            geoData.country = data.country_name || '';
+            geoData.city = data.city || '';
+            geoData.region = data.region || '';
+            console.log("Dati di geolocalizzazione ottenuti:", geoData);
+          })
+          .catch(error => {
+            console.error("Errore nell'ottenere la geolocalizzazione:", error);
+          });
+    
         // Aggiungiamo un debounce per limitare le richieste frequenti
         let clickTimeout;
         const debounceTime = 300; // ms
@@ -556,7 +572,7 @@
             const clickedElementId = event.target.id || '';
             const clickedElementClass = event.target.className || '';
             
-            // Prepariamo i dati da inviare
+            // Prepariamo i dati da inviare, includendo geolocalizzazione
             const data = {
               timestamp: new Date().toISOString(),
               userAgent: navigator.userAgent,
@@ -565,13 +581,17 @@
               elementId: clickedElementId,
               elementClass: clickedElementClass,
               screenWidth: window.innerWidth,
-              screenHeight: window.innerHeight
+              screenHeight: window.innerHeight,
+              // Aggiungiamo i dati di geolocalizzazione
+              geoCountry: geoData.country,
+              geoCity: geoData.city,
+              geoRegion: geoData.region
             };
             
             console.log("Invio dati di tracciamento:", data);
             
             // Inviamo la richiesta con gestione degli errori
-            fetch('https://script.google.com/macros/s/AKfycbwru8Ott_KZCViHPur0o6k_OCWXvvPHKXg_zgCXPHhGszTHzNHa37Kqf56j5gah9-9H/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbzyMw7RcNa_9SKGztjT87OeJ4r_X9cmlWPqLjdUUfOtuH51w13St5hROwp31qENEtHW/exec', {
               method: 'POST',
               body: JSON.stringify(data),
               headers: {
